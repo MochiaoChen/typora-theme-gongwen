@@ -1,0 +1,84 @@
+/*!
+ * Gongwen Dark 公文·暗 — dark variant of the Gongwen Typora theme
+ *
+ * https://github.com/MochiaoChen/typora-theme-gongwen
+ * MIT License
+ *
+ * 需要与 gongwen.css 放在同一目录。
+ */
+
+@import url("gongwen.css");
+
+:root {
+  /* ---- 颜色：暖墨色底，非简单反色 ---- */
+  --gw-paper: #1d1c1a;
+  --gw-desk: #171614;
+  --gw-ink: #ddd8ce;
+  --gw-ink-soft: #b9b3a7;
+  --gw-muted: #857f74;
+  --gw-red: #e5594d;
+  --gw-red-soft: rgba(229, 89, 77, 0.2);
+  --gw-border: #3a3834;
+  --gw-rule: #8a847a;
+  --gw-code-bg: #252421;
+  --gw-quote-bar: #4a4741;
+  --gw-selection: rgba(229, 89, 77, 0.28);
+
+  --gw-cm-keyword: #f08a7e;
+  --gw-cm-string: #a9c58e;
+  --gw-cm-number: #e3b36e;
+  --gw-cm-comment: #7d776c;
+  --gw-cm-def: #8fb6e6;
+  --gw-cm-variable2: #c5aee8;
+  --gw-cm-meta: #a19b8f;
+
+  --active-file-bg-color: #2a2926;
+  --item-hover-bg-color: #24231f;
+  --md-char-color: #5f5a52;
+  --blur-text-color: #4f4b45;
+  --heading-char-color: #5f5a52;
+
+  color-scheme: dark;
+}
+
+#write img {
+  opacity: 0.92;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 192, 178, 0.22);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 192, 178, 0.38);
+}
+
+/* 导出 PDF / 打印时始终使用白纸黑字 */
+@media print {
+  :root {
+    --gw-paper: #ffffff;
+    --gw-ink: #111111;
+    --gw-ink-soft: #3d3d3d;
+    --gw-muted: #8a8780;
+    --gw-red: #d40000;
+    --gw-red-soft: #fbeaea;
+    --gw-border: #d9d6d0;
+    --gw-rule: #111111;
+    --gw-code-bg: #f6f5f2;
+    --gw-quote-bar: #c9c5bd;
+
+    --gw-cm-keyword: #a3141a;
+    --gw-cm-string: #2f6b3a;
+    --gw-cm-number: #8a4b08;
+    --gw-cm-comment: #8c8a85;
+    --gw-cm-def: #1a4d8f;
+    --gw-cm-variable2: #4b3a8c;
+    --gw-cm-meta: #6b6862;
+
+    color-scheme: light;
+  }
+
+  #write img {
+    opacity: 1;
+  }
+}

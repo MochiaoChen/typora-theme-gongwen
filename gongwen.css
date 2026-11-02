@@ -1,0 +1,700 @@
+/*!
+ * Gongwen 公文 — a Typora theme following GB/T 9704-2012
+ * 《党政机关公文格式》
+ *
+ * https://github.com/MochiaoChen/typora-theme-gongwen
+ * MIT License
+ *
+ * 版式要点（GB/T 9704-2012）：
+ *   正文      3号仿宋（16pt），每行 28 字，每页 22 行
+ *   标题      2号方正小标宋（22pt），居中
+ *   一级标题  “一、” 3号黑体
+ *   二级标题  “（一）” 3号楷体
+ *   三级标题  “1.” 3号仿宋加粗
+ *   四级标题  “（1）” 3号仿宋
+ *   版心      156mm × 225mm；上 37mm、下 35mm、左 28mm、右 26mm
+ *
+ * Markdown 对应：# 标题  ## 一级  ### 二级  #### 三级  ##### 四级
+ *                --- 渲染为红色分隔线（版头反线）
+ *
+ * 字体：本主题不附带任何字体文件，只调用本机已安装的字体。
+ *   标题优先使用本机的“方正小标宋简体”（商用字体，需自行获取授权）；
+ *   未安装时依次回退到开源免费的思源宋体 / Noto Serif SC 的 Heavy 字重，
+ *   再回退到系统自带的宋体。
+ */
+
+/* 方正小标宋只有一个字重，这里把它登记为 900，
+   标题统一以 900 请求：装了小标宋就原样显示（不会被伪加粗），
+   没装时后备的思源宋体等会取到真正的 Heavy 字重。 */
+@font-face {
+  font-family: "Gongwen XiaoBiaoSong";
+  font-weight: 900;
+  src: local("FZXiaoBiaoSong-B05S"), local("方正小标宋简体"),
+    local("FZXBSJW--GB1-0"), local("FZXiaoBiaoSong-B05"),
+    local("方正小标宋_GBK"), local("FZXBSK--GBK1-0");
+}
+
+/* 黑体：Windows 的 SimHei；macOS 的“黑体-简”常规字重偏细，改取中黑 */
+@font-face {
+  font-family: "Gongwen Hei";
+  src: local("SimHei"), local("黑体"), local("STHeitiSC-Medium"),
+    local("Heiti SC Medium");
+}
+
+:root {
+  /* ---- 字体 ---- */
+  --gw-font-fangsong: "Times New Roman", "FangSong_GB2312", "仿宋_GB2312",
+    "FangSong", "仿宋", "STFangsong", "华文仿宋", "Zhuque Fangsong (technical preview)",
+    "Zhuque Fangsong", "朱雀仿宋", serif;
+  --gw-font-hei: "Gongwen Hei", "STHeiti", "Source Han Sans SC",
+    "Noto Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  --gw-font-kai: "Times New Roman", "KaiTi_GB2312", "楷体_GB2312", "KaiTi",
+    "楷体", "Kaiti SC", "STKaiti", "华文楷体", "LXGW WenKai", "霞鹜文楷", serif;
+  --gw-font-xiaobiaosong: "Gongwen XiaoBiaoSong", "Source Han Serif SC",
+    "Source Han Serif SC VF", "Source Han Serif CN", "思源宋体",
+    "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STZhongsong",
+    "华文中宋", "SimSun", "宋体", serif;
+  --gw-title-weight: 900;
+  --gw-font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas,
+    "Liberation Mono", "FangSong_GB2312", monospace;
+
+  /* ---- 尺寸 ---- */
+  --gw-size-body: 16pt;           /* 3号 */
+  --gw-line: 1.81;                /* 225mm ÷ 22 行 ≈ 28.95pt ÷ 16pt */
+  --gw-chars-per-line: 28em;      /* 每行 28 字 */
+  --gw-page-padding: 64px;
+
+  /* ---- 颜色 ---- */
+  --gw-paper: #ffffff;
+  --gw-desk: #f2f1ee;
+  --gw-ink: #111111;
+  --gw-ink-soft: #3d3d3d;
+  --gw-muted: #8a8780;
+  --gw-red: #d40000;              /* 公文红 */
+  --gw-red-soft: #fbeaea;
+  --gw-border: #d9d6d0;
+  --gw-rule: #111111;
+  --gw-code-bg: #f6f5f2;
+  --gw-quote-bar: #c9c5bd;
+  --gw-selection: rgba(212, 0, 0, 0.14);
+
+  /* ---- 代码高亮 ---- */
+  --gw-cm-keyword: #a3141a;
+  --gw-cm-string: #2f6b3a;
+  --gw-cm-number: #8a4b08;
+  --gw-cm-comment: #8c8a85;
+  --gw-cm-def: #1a4d8f;
+  --gw-cm-variable2: #4b3a8c;
+  --gw-cm-meta: #6b6862;
+
+  /* ---- Typora 内置变量 ---- */
+  --bg-color: var(--gw-paper);
+  --text-color: var(--gw-ink);
+  --primary-color: var(--gw-red);
+  --side-bar-bg-color: var(--gw-desk);
+  --control-text-color: var(--gw-ink-soft);
+  --active-file-bg-color: #e7e4de;
+  --active-file-text-color: var(--gw-ink);
+  --active-file-border-color: var(--gw-red);
+  --item-hover-bg-color: #ebe8e2;
+  --item-hover-text-color: var(--gw-ink);
+  --window-border: 1px solid var(--gw-border);
+  --select-text-bg-color: var(--gw-selection);
+  --select-text-font-color: inherit;
+  --md-char-color: #b5b1a9;
+  --meta-content-color: var(--gw-muted);
+  --monospace: var(--gw-font-mono);
+  --code-block-bg-color: var(--gw-code-bg);
+  --blur-text-color: #c8c4bc;
+  --heading-char-color: #b5b1a9;
+}
+
+/* ============================== 页面 ============================== */
+
+html {
+  font-size: var(--gw-size-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--gw-font-fangsong);
+  color: var(--gw-ink);
+  background: var(--gw-paper);
+  line-height: var(--gw-line);
+}
+
+#write {
+  max-width: calc(var(--gw-chars-per-line) + var(--gw-page-padding) * 2);
+  padding: 56px var(--gw-page-padding) 96px;
+  font-size: 1rem;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  line-break: strict;
+}
+
+::selection {
+  background: var(--gw-selection);
+}
+
+/* ============================== 段落 ============================== */
+
+#write p {
+  margin: 0;
+  text-indent: 2em;
+  line-height: var(--gw-line);
+}
+
+/* 列表、表格、脚注、图片段落不缩进 */
+#write li p,
+#write .footnotes p,
+#write .md-def-content p,
+#write p:has(> .md-image:only-child),
+#write p:has(> img:only-child),
+#write p.md-math-block,
+#write p:has(> .md-raw-inline:only-child) {
+  text-indent: 0;
+}
+
+#write p:has(> .md-image:only-child),
+#write p:has(> img:only-child) {
+  text-align: center;
+}
+
+/* ============================== 标题 ============================== */
+
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+  margin: 0;
+  color: var(--gw-ink);
+  font-size: 1em;
+  font-weight: normal;
+  line-height: var(--gw-line);
+  text-indent: 2em;
+}
+
+/* 公文标题：2号小标宋，居中，下空一行 */
+#write h1 {
+  margin: 0 0 1.81em;
+  font-family: var(--gw-font-xiaobiaosong);
+  font-weight: var(--gw-title-weight);
+  font-synthesis: none;
+  font-size: 1.375em;           /* 22pt */
+  line-height: 1.5;
+  text-align: center;
+  text-indent: 0;
+  text-wrap: balance;
+  letter-spacing: 0.02em;
+}
+
+/* 标题紧接 --- 时，红线贴近标题 */
+#write h1:has(+ hr) {
+  margin-bottom: 0;
+}
+
+/* 一级标题 “一、” 黑体 */
+#write h2 {
+  font-family: var(--gw-font-hei);
+}
+
+/* 二级标题 “（一）” 楷体 */
+#write h3 {
+  font-family: var(--gw-font-kai);
+}
+
+/* 三级标题 “1.” 仿宋加粗 */
+#write h4 {
+  font-family: var(--gw-font-fangsong);
+  font-weight: bold;
+}
+
+/* 四级标题 “（1）” 仿宋 */
+#write h5,
+#write h6 {
+  font-family: var(--gw-font-fangsong);
+}
+
+#write .md-heading.md-focus::before,
+#write .md-heading .md-meta {
+  color: var(--heading-char-color);
+}
+
+/* 标题下的正文与公文一样不额外空行，但首个标题前留出间隔 */
+#write h1:first-child {
+  margin-top: 0.5em;
+}
+
+/* ============================== 版头反线 ============================== */
+
+#write hr {
+  height: 0;
+  margin: 0.4em 0 1.2em;
+  border: none;
+  border-top: 2px solid var(--gw-red);
+  background: none;
+}
+
+/* ============================== 行内 ============================== */
+
+#write strong {
+  font-weight: bold;
+}
+
+/* 中文不使用斜体，强调改用楷体 */
+#write em {
+  font-family: var(--gw-font-kai);
+  font-style: normal;
+}
+
+#write strong em,
+#write em strong {
+  font-family: var(--gw-font-kai);
+  font-weight: bold;
+}
+
+#write del {
+  color: var(--gw-muted);
+}
+
+#write mark {
+  background: var(--gw-red-soft);
+  color: inherit;
+  padding: 0 0.1em;
+}
+
+#write u {
+  text-decoration-color: var(--gw-red);
+  text-underline-offset: 0.2em;
+}
+
+#write a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--gw-red);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+#write a:hover {
+  color: var(--gw-red);
+}
+
+#write code {
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+  background: var(--gw-code-bg);
+  border: 1px solid var(--gw-border);
+  font-family: var(--gw-font-mono);
+  font-size: 0.78em;
+}
+
+#write sup,
+#write sub {
+  font-size: 0.7em;
+  line-height: 0;
+}
+
+/* ============================== 列表 ============================== */
+
+#write ul,
+#write ol {
+  margin: 0;
+  padding-left: 3.5em;
+}
+
+#write li ul,
+#write li ol {
+  padding-left: 1.5em;
+}
+
+#write li {
+  margin: 0;
+}
+
+#write li > p {
+  margin: 0;
+}
+
+#write ul {
+  list-style: disc;
+}
+
+#write ul ul {
+  list-style: circle;
+}
+
+#write ul ul ul {
+  list-style: square;
+}
+
+#write li::marker {
+  color: var(--gw-ink-soft);
+}
+
+#write .task-list-item {
+  list-style: none;
+}
+
+#write .task-list-item input {
+  margin-top: 0.55em;
+  accent-color: var(--gw-red);
+}
+
+/* ============================== 引用 ============================== */
+
+#write blockquote {
+  margin: 0.4em 0;
+  padding: 0 0 0 1.2em;
+  border-left: 3px solid var(--gw-quote-bar);
+  color: var(--gw-ink-soft);
+  font-family: var(--gw-font-kai);
+}
+
+#write blockquote p {
+  text-indent: 2em;
+}
+
+/* GitHub 风格提示块 */
+#write .md-alert {
+  border-left-color: var(--gw-red);
+}
+
+#write .md-alert-text {
+  font-family: var(--gw-font-hei);
+  color: var(--gw-red);
+}
+
+/* ============================== 表格 ============================== */
+
+#write figure.md-table-fig {
+  margin: 0.6em 0;
+}
+
+#write table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875em;           /* 4号 14pt */
+  line-height: 1.6;
+  text-indent: 0;
+}
+
+#write table th,
+#write table td {
+  padding: 0.3em 0.6em;
+  border: 1px solid var(--gw-rule);
+  vertical-align: middle;
+}
+
+#write table th {
+  font-family: var(--gw-font-hei);
+  font-weight: normal;
+  text-align: center;
+}
+
+#write table caption,
+#write .md-table-fig figcaption {
+  font-family: var(--gw-font-hei);
+  text-align: center;
+}
+
+/* ============================== 代码块 ============================== */
+
+#write .md-fences,
+#write pre {
+  margin: 0.6em 0;
+  padding: 0.7em 1em;
+  border: 1px solid var(--gw-border);
+  border-radius: 4px;
+  background: var(--gw-code-bg);
+  font-family: var(--gw-font-mono);
+  font-size: 0.72em;
+  line-height: 1.6;
+  text-align: left;
+  text-indent: 0;
+}
+
+#write .md-fences .CodeMirror {
+  font-family: var(--gw-font-mono);
+}
+
+#write .md-fences .code-tooltip {
+  background: var(--gw-paper);
+  border: 1px solid var(--gw-border);
+}
+
+.CodeMirror-gutters {
+  border-right: 1px solid var(--gw-border);
+  background: transparent;
+}
+
+.CodeMirror-linenumber {
+  color: var(--gw-muted);
+}
+
+.CodeMirror-cursor {
+  border-left-color: var(--gw-ink);
+}
+
+.cm-s-inner .cm-keyword,
+.cm-s-inner .cm-tag {
+  color: var(--gw-cm-keyword);
+}
+
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-string-2 {
+  color: var(--gw-cm-string);
+}
+
+.cm-s-inner .cm-number,
+.cm-s-inner .cm-atom,
+.cm-s-inner .cm-attribute {
+  color: var(--gw-cm-number);
+}
+
+.cm-s-inner .cm-comment {
+  color: var(--gw-cm-comment);
+  font-style: italic;
+}
+
+.cm-s-inner .cm-def,
+.cm-s-inner .cm-property,
+.cm-s-inner .cm-builtin,
+.cm-s-inner .cm-type,
+.cm-s-inner .cm-variable-3 {
+  color: var(--gw-cm-def);
+}
+
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-qualifier {
+  color: var(--gw-cm-variable2);
+}
+
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-bracket {
+  color: var(--gw-cm-meta);
+}
+
+.cm-s-inner .cm-header {
+  color: var(--gw-ink);
+  font-weight: bold;
+}
+
+.cm-s-inner .cm-link,
+.cm-s-inner .cm-url {
+  color: var(--gw-cm-def);
+}
+
+.cm-s-inner .CodeMirror-matchingbracket {
+  color: inherit;
+  background: var(--gw-selection);
+}
+
+.cm-s-inner .CodeMirror-selected,
+.cm-s-inner .CodeMirror-selectedtext {
+  background: var(--gw-selection);
+}
+
+/* ============================== 其他块 ============================== */
+
+#write .md-math-block,
+#write .mathjax-block {
+  margin: 0.4em 0;
+  text-indent: 0;
+}
+
+#write .md-meta-block {
+  margin-bottom: 1em;
+  padding: 0.6em 1em;
+  border-left: 3px solid var(--gw-border);
+  color: var(--gw-muted);
+  font-family: var(--gw-font-mono);
+  font-size: 0.72em;
+  text-indent: 0;
+}
+
+#write img {
+  max-width: 100%;
+}
+
+#write figcaption,
+#write .md-image > .md-meta {
+  color: var(--gw-muted);
+}
+
+/* 目录 */
+#write .md-toc {
+  margin: 0.4em 0 1em;
+  padding: 0.6em 1em;
+  border: 1px solid var(--gw-border);
+  text-indent: 0;
+  font-size: 0.875em;
+  line-height: 1.8;
+}
+
+#write .md-toc-item {
+  color: var(--gw-ink);
+}
+
+#write .md-toc-h1 {
+  font-family: var(--gw-font-xiaobiaosong);
+  font-weight: var(--gw-title-weight);
+  font-synthesis: none;
+}
+#write .md-toc-h2 { font-family: var(--gw-font-hei); }
+#write .md-toc-h3 { font-family: var(--gw-font-kai); }
+
+/* 脚注 */
+#write .md-footnote,
+#write sup.md-footnote {
+  color: var(--gw-red);
+  background: none;
+}
+
+#write .footnotes {
+  margin-top: 1.5em;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--gw-border);
+  color: var(--gw-ink-soft);
+  font-size: 0.875em;
+}
+
+#write .md-def-name {
+  color: var(--gw-red);
+}
+
+/* 附件说明、落款等可用 <p align="right"> 或 <div style="text-align:right"> */
+#write p[align="right"],
+#write p[align="center"] {
+  text-indent: 0;
+}
+
+/* 落款：成文日期右空四字 */
+#write p[align="right"] {
+  padding-right: 4em;
+  text-align: right;
+}
+
+/* ============================== 侧边栏与界面 ============================== */
+
+.typora-sourceview-on #toggle-sourceview-btn,
+.ty-show-word-count #footer-word-count {
+  background: var(--item-hover-bg-color);
+}
+
+#typora-sidebar {
+  font-family: var(--gw-font-hei);
+}
+
+.outline-item:hover,
+.file-list-item:hover {
+  background: var(--item-hover-bg-color);
+}
+
+.outline-item-active {
+  color: var(--gw-red);
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state {
+  visibility: visible;
+}
+
+.md-task-list-item > input:checked::before {
+  background: var(--gw-red);
+}
+
+/* 源代码模式 */
+#typora-source {
+  font-family: var(--gw-font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#typora-source .CodeMirror-lines {
+  max-width: calc(var(--gw-chars-per-line) + var(--gw-page-padding) * 2);
+}
+
+/* 专注模式 */
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) * {
+  color: var(--blur-text-color) !important;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(128, 124, 116, 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 124, 116, 0.55);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ============================== 打印 / 导出 PDF ============================== */
+
+@page {
+  size: A4;
+  margin: 37mm 26mm 35mm 28mm;
+}
+
+@media print {
+  html {
+    font-size: 16pt;
+  }
+
+  body,
+  #write {
+    background: #ffffff;
+  }
+
+  #write {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* 固定行距：每页 22 行 */
+  #write p,
+  #write h2,
+  #write h3,
+  #write h4,
+  #write h5,
+  #write h6,
+  #write li {
+    line-height: 28.95pt;
+  }
+
+  #write h1 {
+    margin-bottom: 28.95pt;
+  }
+
+  #write h1,
+  #write h2,
+  #write h3,
+  #write h4 {
+    break-after: avoid;
+  }
+
+  #write pre,
+  #write .md-fences,
+  #write table,
+  #write img {
+    break-inside: avoid;
+  }
+
+  #write a {
+    text-decoration: none;
+  }
+}
