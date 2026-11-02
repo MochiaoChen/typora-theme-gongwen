@@ -192,8 +192,16 @@ body {
 }
 
 /* 标题紧接 --- 时，红线贴近标题 */
-#write h1:has(+ hr) {
+#write h1:has(+ hr),
+#write h1:has(+ [mdtype="hr"]),
+#write h1:has(+ .md-hr) {
   margin-bottom: 0;
+}
+
+#write [mdtype="hr"],
+#write .md-hr {
+  margin: 0;
+  padding: 0;
 }
 
 /* 一级标题 “一、” 黑体 */
@@ -404,7 +412,7 @@ body {
 /* ============================== 代码块 ============================== */
 
 #write .md-fences,
-#write pre {
+#write pre:not(.CodeMirror-line):not(.CodeMirror-line-like) {
   margin: 0.6em 0;
   padding: 0.7em 1em;
   border: 1px solid var(--gw-border);
@@ -419,6 +427,18 @@ body {
 
 #write .md-fences .CodeMirror {
   font-family: var(--gw-font-mono);
+}
+
+#write .md-fences code,
+#write pre code,
+#write .md-fences pre.CodeMirror-line,
+#write .md-fences pre.CodeMirror-line-like {
+  margin: 0;
+  padding: 0 4px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  font-size: inherit;
 }
 
 #write .md-fences .code-tooltip {
