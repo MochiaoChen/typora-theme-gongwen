@@ -44,15 +44,17 @@
 
 :root {
   /* ---- 字体 ---- */
-  --gw-font-fangsong: "Times New Roman", "FangSong_GB2312", "仿宋_GB2312",
+  /* 西文与数字一律使用 Times New Roman，中文再按用途回退 */
+  --gw-font-latin: "Times New Roman", "Times", "Liberation Serif", "Tinos";
+  --gw-font-fangsong: var(--gw-font-latin), "FangSong_GB2312", "仿宋_GB2312",
     "FangSong", "仿宋", "STFangsong", "华文仿宋", "Zhuque Fangsong (technical preview)",
     "Zhuque Fangsong", "朱雀仿宋", serif;
-  --gw-font-hei: "Gongwen Hei", "STHeiti", "Source Han Sans SC",
+  --gw-font-hei: var(--gw-font-latin), "Gongwen Hei", "STHeiti", "Source Han Sans SC",
     "Noto Sans SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei",
     sans-serif;
-  --gw-font-kai: "Times New Roman", "KaiTi_GB2312", "楷体_GB2312", "KaiTi",
+  --gw-font-kai: var(--gw-font-latin), "KaiTi_GB2312", "楷体_GB2312", "KaiTi",
     "楷体", "Kaiti SC", "STKaiti", "华文楷体", "LXGW WenKai", "霞鹜文楷", serif;
-  --gw-font-xiaobiaosong: "Gongwen XiaoBiaoSong", "Source Han Serif SC",
+  --gw-font-xiaobiaosong: var(--gw-font-latin), "Gongwen XiaoBiaoSong", "Source Han Serif SC",
     "Source Han Serif SC VF", "Source Han Serif CN", "思源宋体",
     "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STZhongsong",
     "华文中宋", "SimSun", "宋体", serif;
@@ -74,6 +76,8 @@
   --gw-muted: #8a8780;
   --gw-red: #d40000;              /* 公文红 */
   --gw-red-soft: #fbeaea;
+  --gw-highlight: #fff200;        /* 荧光笔黄 */
+  --gw-highlight-text: #111111;
   --gw-border: #d9d6d0;
   --gw-rule: #111111;
   --gw-code-bg: #f6f5f2;
@@ -314,14 +318,14 @@ body {
 }
 
 #write mark {
-  background: var(--gw-red-soft);
-  color: inherit;
+  background: var(--gw-highlight);
+  color: var(--gw-highlight-text);
   padding: 0 0.1em;
 }
 
 #write u {
-  text-decoration-color: var(--gw-red);
-  text-underline-offset: 0.2em;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
 }
 
 #write a {
@@ -601,8 +605,21 @@ body {
   line-height: 1.8;
 }
 
-#write .md-toc-item {
+#write .md-toc p,
+#write .md-toc-content {
+  margin: 0;
+  text-indent: 0;
+  text-align: left;
+}
+
+#write .md-toc-item,
+#write .md-toc a {
   color: var(--gw-ink);
+  text-decoration: none;
+}
+
+#write .md-toc a:hover {
+  color: var(--gw-red);
 }
 
 #write .md-toc-h1 {
@@ -652,7 +669,8 @@ body {
 }
 
 #typora-sidebar {
-  font-family: var(--gw-font-hei);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
 }
 
 .outline-item:hover,

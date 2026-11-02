@@ -18,6 +18,8 @@
   --gw-muted: #857f74;
   --gw-red: #e5594d;
   --gw-red-soft: rgba(229, 89, 77, 0.2);
+  --gw-highlight: #e8d800;
+  --gw-highlight-text: #111111;
   --gw-border: #3a3834;
   --gw-rule: #8a847a;
   --gw-code-bg: #252421;
@@ -62,6 +64,7 @@
     --gw-muted: #8a8780;
     --gw-red: #d40000;
     --gw-red-soft: #fbeaea;
+    --gw-highlight: #fff200;
     --gw-border: #d9d6d0;
     --gw-rule: #111111;
     --gw-code-bg: #f6f5f2;
