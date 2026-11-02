@@ -15,6 +15,7 @@
  *   版心      156mm × 225mm；上 37mm、下 35mm、左 28mm、右 26mm
  *
  * Markdown 对应：# 标题  ## 一级  ### 二级  #### 三级  ##### 四级
+ *                二至五级标题的序数由主题自动生成，正文中无需手打
  *                --- 渲染为红色分隔线（版头反线）
  *
  * 字体：本主题不附带任何字体文件，只调用本机已安装的字体。
@@ -226,9 +227,53 @@ body {
   font-family: var(--gw-font-fangsong);
 }
 
-#write .md-heading.md-focus::before,
 #write .md-heading .md-meta {
   color: var(--heading-char-color);
+}
+
+/* ---------- 层次序数自动编号：一、 （一） 1. （1） ---------- */
+
+#write {
+  counter-reset: gw-h2 gw-h3 gw-h4 gw-h5;
+}
+
+#write h1 {
+  counter-reset: gw-h2 gw-h3 gw-h4 gw-h5;
+}
+
+#write h2 {
+  counter-increment: gw-h2;
+  counter-reset: gw-h3 gw-h4 gw-h5;
+}
+
+#write h3 {
+  counter-increment: gw-h3;
+  counter-reset: gw-h4 gw-h5;
+}
+
+#write h4 {
+  counter-increment: gw-h4;
+  counter-reset: gw-h5;
+}
+
+#write h5 {
+  counter-increment: gw-h5;
+}
+
+#write h2::before {
+  content: counter(gw-h2, simp-chinese-informal) "、";
+}
+
+#write h3::before {
+  content: "（" counter(gw-h3, simp-chinese-informal) "）";
+}
+
+#write h4::before {
+  content: counter(gw-h4) ".";
+}
+
+#write h5::before {
+  content: "（" counter(gw-h5) "）";
 }
 
 /* 标题下的正文与公文一样不额外空行，但首个标题前留出间隔 */
